@@ -8,6 +8,8 @@ use vars qw(@ISA @EXPORT @EXPORT_OK);
 @EXPORT = qw( get_value print_value $foo );
 our $foo = 1;
 
+use DateTime;
+DateTime::TimeZone->names_in_country( "SE" );
 
 
 sub new
@@ -25,12 +27,15 @@ sub get_value{
 	my $value = <SENSOR>;
 	$value =~ s/\s+//g;
 	close SENSOR;
-	$$self{value} = $value;
+	$$self{sensor_value} = $value;
+	my $dt = DateTime->now;
+	$dt->set_time_zone( 'Europe/Stockholm' );
+	$$self{date_time} = $dt->strftime('%Y-%m-%d %H:%M:%S');
 }
 
 sub print_value{
 	my $self = shift;
-	printf( "sensor: %s, location: %s, value: %s\n", $$self{file}, $$self{location}, $$self{value} );
+	printf( "date: %s, sensor: %s, location: %s, value: %s\n", $$self{date_time}, $$self{sensor_filename}, $$self{location}, $$self{sensor_value} );
 }
 
 sub print_all_sensors{
@@ -40,7 +45,7 @@ sub print_all_sensors{
 	while( my $dir = readdir(DIR) ){
 		if( $dir =~ /^\d{2}\./ ){
 			if( -e "$$self{path}/$dir/temperature" ){
-				my $temp_sensor = DS18S20->new(  path => $$self{path}, dirname => $dir, file => 'temperature', location => (defined $$self{sensor_map}{$dir}?$$self{sensor_map}{$dir}:$dir) );
+				my $temp_sensor = DS18S20->new(  sensor_path => $$self{path}, sensor_dirname => $dir, sensor_filename => 'temperature', location => (defined $$self{sensor_map}{$dir}?$$self{sensor_map}{$dir}:$dir) );
 				$temp_sensor->get_value();
 				$temp_sensor->print_value();
 			}

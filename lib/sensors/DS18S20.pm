@@ -8,23 +8,25 @@ sub new
 	my $class = shift;
 	my (%self) = @_;
 	
-	if( $self{path} ){
-		$self{filename} = $self{path};
+	if( $self{sensor_path} ){
+		$self{filename} = $self{sensor_path};
 	}
 	else{
-		die "argument 'path' is missing\n"; 
+		die "argument 'sensor_path' is missing\n"; 
 	}
-	if( $self{dirname} ){
-		$self{filename} .= $self{dirname} . '/';
-	}
-	else{
-		die "argument 'dirname' is missing\n"; 
-	}
-	if( $self{file} ){
-		$self{filename} .= $self{file};
+	if( $self{sensor_dirname} ){
+		$self{filename} .= $self{sensor_dirname} . '/';
 	}
 	else{
-		die "argument 'file' is missing\n"; 
+		die "argument 'sensor_dirname' is missing\n"; 
+	}
+	if( $self{sensor_filename} ){
+		$self{filename} .= $self{sensor_filename};
+	}
+	else{
+		#die "argument 'sensor_filename' is missing\n"; 
+		$self{sensor_filename} = 'temperature';
+		$self{filename} .= $self{sensor_filename};
 	}
 	
 	bless \%self, $class;
