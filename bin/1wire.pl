@@ -58,7 +58,7 @@ while(1){
 	
 	$outdoor->get_value();
 	$outdoor->print_value();
-	$sql->add_to_table($livingroom);
+	$sql->add_to_table($outdoor);
 	
 	sleep 60;
 	
