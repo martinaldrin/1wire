@@ -28,6 +28,7 @@ my %sensor_map = (
 		'28.DA36D6020000' => "outdoor",
 );
 
+#Start ofws: sudo /opt/owfs/bin/owfs -u --allow_other /mnt/1wire/
 
 
 print "temperature monitor:\n";
@@ -48,7 +49,7 @@ my $outdoor = DS18S20->new(  sensor_path => $sensor_path, sensor_dirname => '28.
 #my $sensors = sensors->new( path => $sensor_path, sensor_map => \%sensor_map );
 #$sensors->print_all_sensors();
 
-my $sql = sql->new(period => 5);
+my $sql = sql->new( period => 5 );
 while(1){
 	
 	
@@ -59,9 +60,9 @@ while(1){
 	$sql->add_to_table($livingroom);
 	
 	
-	$outdoor->get_value();
-	$outdoor->print_value();
-	$sql->add_to_table($outdoor);
+	#$outdoor->get_value();
+	#$outdoor->print_value();
+	#$sql->add_to_table($outdoor);
 	
 	sleep 60;
 	

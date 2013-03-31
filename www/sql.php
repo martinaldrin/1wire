@@ -29,9 +29,17 @@
 		mysqli_close($conn);
 	}
 	
-	
-	
-	
+	function get_xy( $conn, $table_name, $freq ){
+		$result = mysqli_query($conn,"SELECT * FROM $table_name");
+		while($row = mysqli_fetch_array($result)){
+			$x .= "'" . $row['date'] . "',";
+  			$y .= $row['value'] . ",";
+			
+		}
+		#echo "x: $x<br>\n";
+		#echo "y: $y<br>\n";
+		return array($x,$y);
+	}
 	
 	function print_table_content($conn, $table){
 	
