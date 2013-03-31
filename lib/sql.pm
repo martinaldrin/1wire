@@ -23,9 +23,24 @@ sub add_to_table{
 	my $table = $$sensor{location};
 	my $date_time = $$sensor{date_time};
 	my $value = sprintf("%.1f", $$sensor{sensor_value} );
-	my $sth = $$self{dbh}->prepare( "INSERT INTO $table VALUES (DEFAULT,\"$date_time\",$value );");
-	$sth->execute();
+	my $period = $$self{period};
 	
+	my ($new_date_time,$min) = $date_time =~ /^(.+?:)(\d{2}):/;
+	my $freq =((($min/$period) % (60/$period))*$period);
+	$new_date_time .= $freq . ':00';
+	push( @{$$self{values}}, $value );
+	if ( defined $$self{old_date_time} && $new_date_time ne $$self{old_date_time} ){
+		$value = 0;
+		foreach my $v ( @{$$self{values}} ){
+			$value += $v;
+		}
+		$value = $value / @{$$self{values}};
+		$value = sprintf("%.1f",$value);
+		my $sth = $$self{dbh}->prepare( "INSERT INTO $table VALUES (DEFAULT,\"$$self{old_date_time}\",$value );");
+		$sth->execute();
+		$$self{values} = ();
+	}
+	$$self{old_date_time} = $new_date_time;	
 }
 
 sub disconnect{
@@ -34,7 +49,6 @@ sub disconnect{
 }
 sub connectDB {
 	my $self = shift;
-	print "access_db: $$self{access_db}\n";
         open( ACCESS_INFO, "<" . $$self{access_db} ) || die "Can't access login credentials";
         my $database = <ACCESS_INFO>;
         my $host = <ACCESS_INFO>;

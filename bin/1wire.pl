@@ -48,11 +48,14 @@ my $outdoor = DS18S20->new(  sensor_path => $sensor_path, sensor_dirname => '28.
 #my $sensors = sensors->new( path => $sensor_path, sensor_map => \%sensor_map );
 #$sensors->print_all_sensors();
 
-my $sql = sql->new();
-
+my $sql = sql->new(period => 5);
 while(1){
+	
+	
+	
+	
 	$livingroom->get_value();
-	$livingroom->print_value();
+	$livingroom->print_value();	
 	$sql->add_to_table($livingroom);
 	
 	
@@ -63,6 +66,7 @@ while(1){
 	sleep 60;
 	
 }
+
 
 
 #my $ds1820 = DS1820->new(  path => $sensor_path, dirname => '', file => 'temperature' name => 'outdoor' );
