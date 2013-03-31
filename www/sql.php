@@ -1,5 +1,4 @@
 <?php
-	echo "connect sql<br>\n";
 	function connect_db(){
 		$file_handle = fopen("/home/xbmc/accessDB", "r");
 		$dbname = fgets($file_handle);
@@ -12,15 +11,10 @@
 		$host = trim(preg_replace('/\s\s+/', ' ', $host));
 		$user = trim(preg_replace('/\s\s+/', ' ', $user));
 		$password = trim(preg_replace('/\s\s+/', ' ', $password));
+		
 		#echo "connect db: host: '$host', db: '$dbname', user: '$user', pw: '$password'<br>\n";
-
 		$conn=mysqli_connect($host,$user,$password, $dbname) or die( "Failed to connect to MySQL: " . mysqli_connect_error() );
-
-   		#$db=mysql_select_db($dbname,$conn) or die( "Failed to open database" );;
-		
-		
-		$result = mysqli_query($con,"SELECT * FROM outdoor");
-
+  		$result = mysqli_query($con,"SELECT * FROM outdoor");
 		return $conn;	
 	}
 	
