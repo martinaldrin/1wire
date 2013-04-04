@@ -1,18 +1,13 @@
 <?php 
-	function print_graph($table_name,$xAxis,$yAxis){
-	echo "
-	<head>
-                <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
-                <title>Martin Aldrins measurement</title>
 
-                <script type='text/javascript' src='jquery/jquery-1.9.1.js'></script>
-	<script>
+	function print_graph($table_name,$xAxis,$yAxis){
+		echo "
+		<script>
+		(function($){
 		$(function () {
 		$('#container').highcharts({
             chart: {
-                type: 'line',
-                marginRight: 130,
-                marginBottom: 25
+                type: 'spline',
             },
             title: {
                 text: 'Average Temperature',
@@ -35,25 +30,30 @@
                     color: '#808080'
                 }]
             },
-            tooltip: {
-                valueSuffix: '°C'
+	    tooltip: {
+                crosshairs: true,
+                shared: true
             },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                x: -10,
-                y: 100,
-                borderWidth: 0
+            plotOptions: {
+                spline: {
+                    marker: {
+                        radius: 4,
+                        lineColor: '#666666',
+                        lineWidth: 1
+                    }
+                }
             },
+            
 	    series: [{
                 name: '$table_name',
 		data: [$yAxis]
 		}]
-        });
-    });
+        }
+    )});
+    })(jQuery);
+    </script>
+	
 
-	</script>
-	</head>";
+	";
 	}
 ?>

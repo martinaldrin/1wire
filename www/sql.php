@@ -23,8 +23,11 @@
 		mysqli_close($conn);
 	}
 	
-	function get_xy( $conn, $table_name, $freq ){
-		$result = mysqli_query($conn,"SELECT * FROM $table_name");
+	function get_xy( $conn, $table_name, $month, $format ){
+		#$result = mysqli_query($conn,"SELECT * FROM $table_name");
+		$query = "SELECT * FROM $table_name WHERE MONTH(date) = $month GROUP BY date_format( date,'$format' )";
+		#echo "sql query: '$query'";
+		$result = mysqli_query($conn,$query);;
 		while($row = mysqli_fetch_array($result)){
 			$x .= "'" . $row['date'] . "',";
   			$y .= $row['value'] . ",";
@@ -32,6 +35,8 @@
 		}
 		#echo "x: $x<br>\n";
 		#echo "y: $y<br>\n";
+		substr_replace($x,"",-1);
+		substr_replace($y,"",-1);
 		return array($x,$y);
 	}
 	

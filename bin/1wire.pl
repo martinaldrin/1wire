@@ -49,7 +49,7 @@ my $outdoor = DS18S20->new(  sensor_path => $sensor_path, sensor_dirname => '28.
 #my $sensors = sensors->new( path => $sensor_path, sensor_map => \%sensor_map );
 #$sensors->print_all_sensors();
 
-my $sql = sql->new( period => 5 );
+my $sql = sql->new( period => 5, access_db => '/home/xbmc//accessDB' );
 while(1){
 	
 	
