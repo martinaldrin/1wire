@@ -28,22 +28,22 @@
 	<script src='/Highcharts/js/modules/exporting.js'></script>	
 </head>
 
-<div id="container" style="width:500px">
+<div id="main" style="width:1400px">
 
 <div id="header" style="background-color:#777777;">
 <h1 style="margin-bottom:0;">Main Title of Web Page</h1></div>
 
-<div id="menu" style="background-color:#DDDDDD;height:200px;width:100px;float:left;">
+<div id="menu" style="background-color:#DDDDDD;height:800px;width:200px;float:left;">
 <b>Menu</b><br>
 INDOOR<br>
 OUTDOOR
 </div>
 
-<div id="content" style="background-color:#EEEEEE;height:200px;width:400px;float:left;">
+<div id="container" style="background-color:#EEEEEE;height:800px;width:1200px;float:left;">
 <pre>
 <?php
 	echo "laban";
-	$xy = get_xy( $sql, "livingroom", "4", "%Y-%m-%d" );
+	$xy = get_xy( $sql, "livingroom", "4", "%Y-%m-%d %h" );
 	print_graph( "livingroom", $xy[0], $xy[1] );	
 ?>
 </pre>
@@ -53,11 +53,6 @@ OUTDOOR
 Martin Aldrin</div>
 
 </div>
-
-
-
-
-
 
 </body>
 
